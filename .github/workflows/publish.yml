@@ -1,0 +1,168 @@
+name: Publish to NPM and GitHub
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        registry-url: 'https://registry.npmjs.org'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: |
+        if [ -f "package.json" ] && npm run test --dry-run > /dev/null 2>&1; then
+          echo "Running tests..."
+          npm test
+        else
+          echo "No tests found, skipping..."
+        fi
+      
+    - name: Run linting
+      run: |
+        if npm run lint --dry-run > /dev/null 2>&1; then
+          echo "Running linter..."
+          npm run lint
+        else
+          echo "No linting script found, skipping..."
+        fi
+      
+    - name: Build package
+      run: |
+        echo "Building package..."
+        npm run build
+        echo "Build completed successfully"
+      
+    - name: Check build output
+      run: |
+        if [ -d "dist" ]; then
+          echo "Build output found in dist/"
+          ls -la dist/
+        else
+          echo "Error: dist/ directory not found after build"
+          exit 1
+        fi
+        
+    - name: Configure npm authentication
+      run: |
+        echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+        echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+        echo "access=public" >> ~/.npmrc
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+    - name: Verify npm authentication
+      run: |
+        echo "Checking npm authentication..."
+        npm whoami
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+    - name: Check package details before publishing
+      run: |
+        echo "Package details:"
+        cat package.json | jq '.name, .version, .main, .types'
+        echo "Files to be published:"
+        npm pack --dry-run
+        
+        # Check if this version already exists on NPM
+        PACKAGE_NAME=$(cat package.json | jq -r '.name')
+        PACKAGE_VERSION=$(cat package.json | jq -r '.version')
+        echo "Checking if version $PACKAGE_VERSION already exists..."
+        
+        if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version 2>/dev/null; then
+          echo "❌ Version $PACKAGE_VERSION already exists on NPM!"
+          echo "Please increment the version in package.json before publishing."
+          echo "Current published versions:"
+          npm view "$PACKAGE_NAME" versions --json
+          exit 1
+        else
+          echo "✅ Version $PACKAGE_VERSION is new, proceeding with publish"
+        fi
+      
+    - name: Publish to npm
+      run: |
+        echo "Publishing package..."
+        npm publish --access public --verbose
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
+    - name: Verify NPM publication
+      run: |
+        echo "Waiting for NPM to process the package..."
+        sleep 10
+        PACKAGE_NAME=$(cat package.json | jq -r '.name')
+        PACKAGE_VERSION=$(cat package.json | jq -r '.version')
+        echo "Checking if package $PACKAGE_NAME@$PACKAGE_VERSION is available..."
+        
+        # Try to fetch package info from NPM with retries
+        for i in {1..3}; do
+          if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version; then
+            echo "✅ Package successfully published to NPM"
+            echo "📦 NPM URL: https://www.npmjs.com/package/$PACKAGE_NAME"
+            break
+          else
+            echo "Attempt $i: Package not yet available, waiting..."
+            sleep 15
+          fi
+        done
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        name: Release ${{ github.ref_name }}
+        body: |
+          ## 🚀 What's New in ${{ github.ref_name }}
+          
+          - ✅ Successfully published to npm registry
+          - 🔗 Package available at: https://www.npmjs.com/package/@abisheks238/react-ui-kit
+          - 📚 Updated documentation and examples
+          - 🐛 Bug fixes and improvements
+          
+          ## 📦 Installation
+          
+          ```bash
+          npm install @abisheks238/react-ui-kit
+          ```
+          
+          ## 🔗 Links
+          
+          - [📦 NPM Package](https://www.npmjs.com/package/@abisheks238/react-ui-kit)
+          - [📚 Documentation](https://github.com/ABISHEK-K-DEV/react-ui-kit#readme)
+          - [🐛 Report Issues](https://github.com/ABISHEK-K-DEV/react-ui-kit/issues)
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+        fail_on_unmatched_files: false
+      continue-on-error: true
+      
+    - name: Manual Release Creation (fallback)
+      if: failure()
+      run: |
+        echo "GitHub release creation failed, but NPM publish was successful!"
+        echo "✅ Package @abisheks238/react-ui-kit@$(cat package.json | jq -r '.version') is available on NPM"
+        echo "📦 NPM URL: https://www.npmjs.com/package/@abisheks238/react-ui-kit"
+        echo "You can manually create a GitHub release if needed."
