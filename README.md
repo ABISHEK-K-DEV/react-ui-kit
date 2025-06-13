@@ -1,6 +1,6 @@
 # @abisheks238/react-ui-kit
 
-[![npm version](https://badge.fury.io/js/@abisheks238%2Freact-ui-kit.svg)](https://badge.fury.io/js/@abisheks238%2Freact-ui-kit)
+[![npm version](https://img.shields.io/npm/v/@abisheks238/react-ui-kit.svg)](https://www.npmjs.com/package/@abisheks238/react-ui-kit)
 [![npm downloads](https://img.shields.io/npm/dm/@abisheks238/react-ui-kit.svg)](https://www.npmjs.com/package/@abisheks238/react-ui-kit)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ABISHEK-K-DEV/react-ui-kit/blob/main/LICENSE)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/@abisheks238/react-ui-kit)](https://bundlephobia.com/package/@abisheks238/react-ui-kit)
