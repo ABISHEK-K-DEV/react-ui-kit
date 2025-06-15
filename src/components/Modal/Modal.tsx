@@ -56,16 +56,22 @@ const Modal: React.FC<ModalProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50"
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="ui-modal-backdrop fixed inset-0"
             onClick={closeOnOverlayClick ? onClose : undefined}
           />
           <div className={clsx('relative min-h-screen', centered ? 'flex items-center justify-center p-4' : 'pt-16 pb-4')}>
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.8, y: 50 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 50 }}
+              transition={{ 
+                duration: 0.4, 
+                ease: [0.16, 1, 0.3, 1],
+                scale: { type: "spring", damping: 20, stiffness: 300 }
+              }}
               className={clsx(
-                'relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full',
+                'ui-modal-content relative rounded-xl shadow-2xl w-full border border-white/20',
                 sizeClasses[size as keyof typeof sizeClasses],
                 className
               )}

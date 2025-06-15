@@ -106,12 +106,21 @@ const Accordion: React.FC<AccordionProps> = ({
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2, ease: 'easeInOut' }}
+                  transition={{ 
+                    duration: 0.4, 
+                    ease: [0.16, 1, 0.3, 1],
+                    opacity: { delay: isOpen ? 0.1 : 0 }
+                  }}
                   className="overflow-hidden"
                 >
-                  <div className="px-4 pb-4 text-gray-600 dark:text-gray-300">
+                  <motion.div 
+                    className="px-6 pb-6 text-gray-600 dark:text-gray-300"
+                    initial={{ y: -10 }}
+                    animate={{ y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.3 }}
+                  >
                     {item.content}
-                  </div>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>

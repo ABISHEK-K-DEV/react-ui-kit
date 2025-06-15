@@ -174,36 +174,45 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="absolute z-50 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 min-w-[280px]"
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ 
+                duration: 0.3, 
+                ease: [0.16, 1, 0.3, 1],
+                scale: { type: "spring", damping: 25, stiffness: 400 }
+              }}
+              className="ui-calendar absolute z-50 mt-2 p-6 min-w-[320px] shadow-2xl"
             >
               {/* Calendar Header */}
-              <div className="flex items-center justify-between mb-4">
-                <button
+              <div className="flex items-center justify-between mb-6">
+                <motion.button
                   type="button"
                   onClick={() => navigateMonth('prev')}
-                  className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="p-2 rounded-lg hover:bg-white/20 transition-all duration-200"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
-                </button>
+                </motion.button>
                 
                 <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
                   {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                 </h3>
                 
-                <button
+                <motion.button
                   type="button"
                   onClick={() => navigateMonth('next')}
-                  className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="p-2 rounded-lg hover:bg-white/20 transition-all duration-200"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                </button>
+                </motion.button>
               </div>
 
               {/* Day Names */}

@@ -184,6 +184,8 @@ export interface ProgressProps extends BaseProps {
   label?: string;
   animated?: boolean;
   striped?: boolean;
+  gradient?: boolean;
+  glow?: boolean;
 }
 
 // Skeleton Component
@@ -192,16 +194,19 @@ export interface SkeletonProps extends BaseProps {
   width?: string | number;
   height?: string | number;
   lines?: number;
-  animation?: 'pulse' | 'wave' | 'none';
+  animation?: 'pulse' | 'wave' | 'shimmer' | 'none' | 'float' | 'glow';
+  gradient?: boolean;
 }
 
 // Loader Component
 export interface LoaderProps extends BaseProps {
-  variant?: 'spinner' | 'dots' | 'bars' | 'pulse';
+  variant?: 'spinner' | 'dots' | 'bars' | 'pulse' | 'orbit' | 'ripple' | 'morphing';
   size?: Size;
-  color?: string;
+  color?: 'primary' | 'success' | 'warning' | 'danger';
   overlay?: boolean;
   text?: string;
+  speed?: 'slow' | 'normal' | 'fast';
+  gradient?: boolean;
 }
 
 // Switch Component

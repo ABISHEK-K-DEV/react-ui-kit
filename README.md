@@ -8,7 +8,7 @@
 
 🎨 **A lightweight, customizable component library for modern React applications**
 
-Includes **19 essential UI elements** designed with accessibility and performance in mind. Easy to integrate with any React project — fully styleable using CSS or Tailwind.
+Includes **19 essential UI elements** designed with accessibility and performance in mind. Easy to integrate with any React project — fully styleable using CSS or Tailwind. ✨ **Now with enhanced animations, glassmorphism effects, and creative micro-interactions!**
 
 ## ✨ Features
 
@@ -17,11 +17,14 @@ Includes **19 essential UI elements** designed with accessibility and performanc
 - ♿ **Accessibility First** - WCAG compliant with proper ARIA support
 - 🌗 **Dark Mode Ready** - Built-in dark mode support
 - 📱 **Responsive Design** - Mobile-first approach
-- 🎭 **Smooth Animations** - Powered by Framer Motion
+- 🎭 **Smooth Animations** - Powered by Framer Motion with creative effects
 - 🔧 **TypeScript Support** - Full type safety out of the box
 - 📦 **Lightweight** - Minimal bundle size impact
 - 🚀 **Performance Optimized** - Tree-shakeable components
 - 🎪 **Storybook Ready** - Interactive component documentation
+- ✨ **Glassmorphism & Modern Effects** - Beautiful visual effects
+- 🌈 **Gradient Animations** - Dynamic color transitions
+- 💫 **Micro-interactions** - Delightful user feedback
 
 ## 📦 Components Included
 
@@ -49,23 +52,14 @@ Includes **19 essential UI elements** designed with accessibility and performanc
 - 👤 **Avatar** - User profile images with fallbacks
 - 🏷️ **Badge** - Count indicators and status badges
 - 📊 **Progress** - Linear and circular progress indicators
-- 💀 **SkeletonLoader** - Loading state placeholders
+- 💀 **Skeleton** - Loading state placeholders
 - ⏳ **Loader** - Various loading animations
 
 ## 🚀 Quick Start
 
 ### Installation
 
-```bash
-# npm
-npm install @abisheks238/react-ui-kit
-
-# yarn
-yarn add @abisheks238/react-ui-kit
-
-# pnpm
-pnpm add @abisheks238/react-ui-kit
-```
+Install the package using your preferred package manager.
 
 ### Basic Usage
 
@@ -78,7 +72,6 @@ function App() {
 
   return (
     <div className="p-8">
-      {/* Button Component */}
       <Button 
         variant="primary" 
         size="lg"
@@ -86,8 +79,6 @@ function App() {
       >
         Open Modal
       </Button>
-
-      {/* Alert Component */}
       <Alert 
         variant="success" 
         title="Success!" 
@@ -97,7 +88,6 @@ function App() {
         Your changes have been saved successfully.
       </Alert>
 
-      {/* Modal Component */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -115,8 +105,9 @@ export default App;
 
 ### With Tailwind CSS (Recommended)
 
+Configure your Tailwind CSS to include the component styles:
+
 ```javascript
-// tailwind.config.js
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -134,7 +125,6 @@ module.exports = {
 ```tsx
 import { Button } from '@abisheks238/react-ui-kit';
 
-// Using className
 <Button 
   className="bg-purple-600 hover:bg-purple-700 text-white"
   variant="ghost"
@@ -142,7 +132,6 @@ import { Button } from '@abisheks238/react-ui-kit';
   Custom Styled Button
 </Button>
 
-// Using inline styles
 <Button 
   style={{ 
     backgroundColor: '#6366f1', 
@@ -161,15 +150,15 @@ import { Button } from '@abisheks238/react-ui-kit';
 import { Button } from '@abisheks238/react-ui-kit';
 
 <Button
-  variant="primary"        // primary | secondary | success | warning | danger | ghost | outline
-  size="md"               // xs | sm | md | lg | xl
-  loading={false}         // Show loading spinner
-  disabled={false}        // Disable button
-  fullWidth={false}       // Take full width
-  leftIcon={<Icon />}     // Left side icon
-  rightIcon={<Icon />}    // Right side icon
-  href="/link"           // Render as link
-  onClick={() => {}}     // Click handler
+  variant="primary"      
+  size="md"               
+  loading={false}         
+  disabled={false}        
+  fullWidth={false}      
+  leftIcon={<Icon />}    
+  rightIcon={<Icon />}    
+  href="/link"           
+  onClick={() => {}}     
 >
   Button Text
 </Button>
@@ -183,9 +172,9 @@ import { InputField } from '@abisheks238/react-ui-kit';
 <InputField
   label="Email Address"
   placeholder="Enter your email"
-  variant="outline"       // outline | filled | ghost
-  size="md"              // xs | sm | md | lg | xl
-  error="Invalid email"   // Error message
+  variant="outline"       
+  size="md"             
+  error="Invalid email"   
   helperText="We'll never share your email"
   leftIcon={<EmailIcon />}
   rightIcon={<ValidationIcon />}
@@ -202,7 +191,6 @@ function ModalExample() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleConfirm = () => {
-    // Handle confirmation logic
     setIsOpen(false);
   };
 
@@ -211,11 +199,11 @@ function ModalExample() {
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       title="Confirm Action"
-      size="md"                    // xs | sm | md | lg | xl | 2xl | 3xl | 4xl | 5xl | full
-      closeOnOverlayClick={true}   // Close when clicking backdrop
-      closeOnEscape={true}         // Close with Escape key
-      showCloseButton={true}       // Show X button
-      centered={true}              // Center vertically
+      size="md"                  
+      closeOnOverlayClick={true}   
+      closeOnEscape={true}         
+      showCloseButton={true}       
+      centered={true}              
       footer={
         <div className="flex space-x-3">
           <Button variant="outline" onClick={() => setIsOpen(false)}>
@@ -239,11 +227,11 @@ function ModalExample() {
 import { Alert } from '@abisheks238/react-ui-kit';
 
 <Alert
-  variant="success"        // info | success | warning | danger
-  title="Success!"         // Optional title
-  dismissible={true}       // Show dismiss button
-  onDismiss={() => {}}     // Dismiss handler
-  icon={true}             // Show/hide icon or custom icon
+  variant="success"        
+  title="Success!"         
+  dismissible={true}       
+  onDismiss={() => {}}    
+  icon={true}            
 >
   Your changes have been saved successfully.
 </Alert>
@@ -265,7 +253,6 @@ import { Alert } from '@abisheks238/react-ui-kit';
 ### Dark Mode
 
 ```tsx
-// Automatic dark mode detection
 <div className="dark">
   <Button variant="primary">Dark Mode Button</Button>
 </div>
@@ -439,11 +426,7 @@ test('renders button with text', () => {
 
 ## 📖 Storybook
 
-Explore all components interactively:
-
-```bash
-npm run storybook
-```
+Explore all components interactively in our Storybook documentation.
 
 ## 🤝 Contributing
 
@@ -495,3 +478,50 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 **Made for the React community with ❤️**
 
 [![NPM](https://nodei.co/npm/@abisheks238/react-ui-kit.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/@abisheks238/react-ui-kit)
+
+### Enhanced Components with Creative Animations
+
+```tsx
+import { Loader, Progress, Button } from '@abisheks238/react-ui-kit';
+<Loader 
+  variant="morphing"    
+  gradient={true}        
+  speed="fast"          
+/>
+
+<Loader variant="orbit" size="lg" gradient />
+<Loader variant="ripple" color="success" />
+
+<Progress 
+  value={75} 
+  gradient={true}        
+  glow={true}           
+  animated={true}
+/>
+
+<Button className="ui-button-glass">
+  Glass Effect
+</Button>
+
+<Button className="ui-button-neon">
+  Neon Glow
+</Button>
+
+
+<Button className="ui-button-gradient">
+  Gradient Magic
+</Button>
+```
+
+### New Animation Classes
+
+```tsx
+
+<div className="animate-float">Floating Element</div>
+<div className="ui-morphing">Liquid Shape</div>
+<div className="ui-neon-glow">Neon Glow</div>
+<div className="animate-wiggle">Wiggle</div>
+<div className="animate-jello">Jello</div>
+<div className="animate-rubber">Rubber</div>
+<div className="animate-heartbeat">Heartbeat</div>
+```

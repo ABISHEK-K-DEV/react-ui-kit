@@ -65,13 +65,33 @@ const Alert: React.FC<AlertProps> = ({
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className={clsx('ui-alert', variantClasses[variant], className)}
+          initial={{ opacity: 0, y: -20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -20, scale: 0.95 }}
+          transition={{ 
+            duration: 0.4, 
+            ease: [0.16, 1, 0.3, 1],
+            type: "spring",
+            damping: 25,
+            stiffness: 400
+          }}
+          className={clsx(
+            'ui-alert relative overflow-hidden backdrop-blur-sm',
+            variantClasses[variant], 
+            className
+          )}
           {...props}
         >
-          <div className="flex">
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-white/10"
+            animate={{ x: ['-100%', '100%'] }}
+            transition={{ 
+              duration: 3, 
+              repeat: Infinity, 
+              ease: "linear" 
+            }}
+          />
+          <div className="flex relative z-10">
             {icon && (
               <div className="flex-shrink-0">
                 {renderIcon()}

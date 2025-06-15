@@ -15,7 +15,8 @@ const Skeleton: React.FC<SkeletonProps> = ({
     'bg-gray-200 dark:bg-gray-700',
     {
       'animate-pulse': animation === 'pulse',
-      'animate-skeleton': animation === 'wave',
+      'ui-skeleton': animation === 'wave',
+      'ui-skeleton-shimmer': animation === 'shimmer',
     }
   );
 
